@@ -86,7 +86,7 @@
 				clr2: '#A9A9A9',
 				stroke: 'gray',
 				shape: 'circle',
-				times: 200,
+				times: 100,
 				width: 500,
 				gridlock: false,
 				striped: false
@@ -95,30 +95,31 @@
 			    color: '#333',
 			    stroke: '#000'
 			}
-		}, p;
+		};
 		
 		for (p in bitsConfig) {
 			if (bitsConfig.hasOwnProperty(p)) {
 				$('#' + p).val(bitsConfig[p]);
 			}
 		}
+
+		var bits = new Bits('bits', bitsConfig);
 		
 		$('button').click(function() {
-			if (BITS.isPaused()) {
-				BITS.resume();
+			if (bits.isPaused) {
+				bits.resume();
 				this.innerHTML = 'PAUSE';
 			} else {
-				BITS.pause();
+				bits.pause();
 				this.innerHTML = 'RESUME';
 			}
 		});
 		
 		$('input').change(function() {
 			var $input = $(this);
-			BITS.set($input.attr('id'), $input.val());
+			bits.set($input.attr('id'), $input.val());
 		});
 		
-		BITS.init(bitsConfig);
 	});
 </script>
 

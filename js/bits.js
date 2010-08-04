@@ -1,68 +1,67 @@
-$(function () {
+function Bits(canvasId, cfg) {
+    var inst, limit, h, w,
+        shapes = {
+    		circle: _drawCircle, 
+    		square: _drawSquare
+    	},
+        $canvas = $('canvas#' + canvasId);
     
-    window.BITS = {
-        cfg: {},
-        init: function(cfg) {
-            this.cfg = cfg;
-            init(this.cfg.bg);
-        },
-        isPaused: function() {
-            return this.cfg.pause;
-        },
-        pause: function() {
-            this.cfg.pause = true;
-        },
-        resume: function() {
-            this.cfg.pause = false;
-        },
-        set: function(key, val) {
-            this.cfg[key] = val;
-        }
-    };
+    if (!$canvas) {
+        throw new Error('No canvas with an id of "' + canvasId + '"');
+    }
     
-	var c = document.getElementById('bits'),
-		ctx = c.getContext('2d'),
-		h, w, limit,
-		shapes = {
-			circle: drawLittleCircle, 
-			square: drawLittleSquare
-		},
-		i, j, clr;
-		
-	function init(cfg) {
-		w = c.width = window.innerWidth;
-		h = c.height = window.innerHeight;
-		limit = h > w ? h : w;
-		draw(cfg);
-		setInterval(draw, BITS.cfg.every);
-	}
-		
-	function draw(cfg) {
+    var c = $canvas[0],
+        ctx = c.getContext('2d');
+    
+    var inst = {
+	    isPaused: false,
+	    pause: pause,
+	    resume: resume,
+	    set: set
+	};
+	
+    _init();
 
-		cfg = cfg || BITS.cfg;
-		
-		if (BITS.isPaused()) {
+	// public
+	function pause() {
+	    inst.isPaused = true;
+	}
+	function resume() {
+	    inst.isPaused = false;
+	}
+	function set(k, v) {
+	    cfg[k] = v;
+	}
+    
+    // private
+	function _init() {
+		h = c.width = window.innerWidth;
+	    w = c.height = window.innerHeight;
+		limit = h > w ? h : w;
+		_draw(cfg.bg);
+        setInterval(function() {
+            _draw(cfg);
+        }, cfg.every);
+	}
+	
+	function _draw(cfg) {
+	    if (inst.isPaused) {
 			return;
 		}
-		w = c.width;
-		h = c.height;
-		limit = h > w ? h : w;
-		
 		if (cfg.gridlock) {
-    		drawGridlock(cfg);
+    		_drawGridlock(cfg);
 		} else {
-		    drawRandom(cfg);
+		    _drawRandom(cfg);
 		}
-		
 	}
-
-    function drawGridlock(cfg) {
+	
+	function _drawGridlock(cfg) {
         var clr = cfg.clr1, i, j, x, y, stroke;
         for (i=0; i<limit; i=i+cfg.width) {
             for (j=0; j<limit; j=j+cfg.width) {
                 stroke = cfg.stroke;
                 clr = clr === cfg.clr1 ? cfg.clr2 : cfg.clr1;
-                drawLittleSquare(clr, j, i, cfg.width, stroke);
+                _drawSquare(clr, j, i, cfg.width, stroke);
             }
             if (!cfg.striped) {
                 clr = clr === cfg.clr1 ? cfg.clr2 : cfg.clr1;
@@ -70,8 +69,8 @@ $(function () {
         }
     }
     
-    function drawRandom(cfg) {
-        var i, x, y, stroke;
+    function _drawRandom(cfg) {
+        var i, x, y, stroke, clr;
         for (i=0; i<cfg.times; i++) {
 			x = Math.round(Math.random()*limit);
 			y = Math.round(Math.random()*limit);
@@ -82,8 +81,17 @@ $(function () {
 		    }
 		}
     }
+    
+    function _drawSquare(clr, x, y, w, stroke) {
+		if (stroke) {
+			ctx.strokeStyle = stroke;
+			ctx.strokeRect(x, y, w, w);
+		}
+		ctx.fillStyle = clr;
+		ctx.fillRect(x, y, w, w);
+	}
 	
-	function drawLittleCircle(clr, x, y, w, stroke) {
+	function _drawCircle(clr, x, y, w, stroke) {
 		ctx.beginPath();
 		ctx.arc(x,y, w/2, 0, Math.PI*2, true);
 		ctx.closePath();
@@ -95,32 +103,26 @@ $(function () {
 		ctx.fill();
 	}
 	
-	function drawLittleSquare(clr, x, y, w, stroke) {
-		if (stroke) {
-			ctx.strokeStyle = stroke;
-			ctx.strokeRect(x, y, w, w);
+	function _drawMouseMove(cfg) {
+	    _drawCircle(cfg.color, cfg.x, cfg.y, cfg.w, cfg.stroke);
+	}
+	
+	function _mouseMove(e) {
+	    if (inst.isPaused) {
+			return;
 		}
-		ctx.fillStyle = clr;
-		ctx.fillRect(x, y, w, w);
-	}
-	
-	function mouseMoveAnimation(cfg) {
-	    drawLittleCircle(cfg.color, cfg.x, cfg.y, cfg.w, cfg.stroke);
-	}
-	
-	function mouseMove(e) {
-	    var cell = getCursorPosition(e);
-	    var cfg = {
+	    var cell = _getCursorPosition(e);
+	    var conf = {
 	        x: cell[0],
 	        y: cell[1],
 	        w: 10,
-	        color: BITS.cfg.mousemove.color,
-	        stroke: BITS.cfg.mousemove.stroke
+	        color: cfg.mousemove.color,
+	        stroke: cfg.mousemove.stroke
 	    }
-	    mouseMoveAnimation(cfg);
+	    _drawMouseMove(conf);
 	}
 	
-    function getCursorPosition(e) {
+    function _getCursorPosition(e) {
         var x, y;
         if (e.pageX || e.pageY) {
             x = e.pageX;
@@ -134,11 +136,11 @@ $(function () {
         return [x,y];
     }
     
-    
-    $(window).bind('resize', function() {
-        init(BITS.cfg.bg);
+    c.addEventListener('mousemove', _mouseMove, false);
+	
+	$(window).bind('resize', function() {
+        _init();
     });
     
-    c.addEventListener('mousemove', mouseMove, false);
-	
-});
+	return inst;
+}
