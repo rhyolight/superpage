@@ -14,24 +14,36 @@
 		font-family: Verdana;
 		font-size: 11pt;
 	}
-	label {
+	
+	#bitsControl {
+	    margin: 0px;
+	    padding: 5px;
 		font-size: 8pt;
-		width: 30px;
+		width: 108px;
+		position: absolute;
+		right: 0px;
+		bottom: 0px;
+    	background: rgb(255, 255, 255);
+    	background: rgba(255, 255, 255, 0.6);
 	}
+	#bitsControl input {
+	    width: 60px;
+	}
+
 	canvas#bits {
  		position: absolute;
 		top: 0px;
 		left: 0px;
 		z-index: -999;
 	}
-	#bitsControl {
-		float: left;
-	}
+
 	#content {
 		background-color: white;
 		border: solid 1px black;
 		padding: 20px;
-		margin-left: 200px;
+		position: absolute;
+		left: 200px; right: 200px;
+		top: 200px; bottom: 200px;
 	}
 	</style>
 </head>
@@ -40,12 +52,12 @@
 
 <div id="bitsControl">
 	<button>PAUSE</button><br/>
-	<label for="clr1">Color 1</label><input id="clr1"/><br/>
-	<label for="clr2">Color 2</label><input id="clr2"/><br/>
-	<label for="stroke">Outline</label><input id="stroke"/><br/>
-	<label for="width">Size</label><input id="width"/><br/>
-	<label for="times">Speed</label><input id="times"/><br/>
-	<label for="shape">Shape</label><input id="shape"/><br/>
+	<input id="clr1"/><label for="clr1">Color 1</label><br/>
+	<input id="clr2"/><label for="clr2">Color 2</label><br/>
+	<input id="stroke"/><label for="stroke">Outline</label><br/>
+	<input id="width"/><label for="width">Size</label><br/>
+	<input id="times"/><label for="times">Speed</label><br/>
+	<input id="shape"/><label for="shape">Shape</label><br/>
 </div>
 
 <div id="content">
@@ -61,7 +73,7 @@
 		var bitsConfig = {
 			clr1: '#9A9A9A',
 			clr2: '#A9A9A9',
-			stroke: '#333',
+			stroke: 'gray',
 			width: 10,
 			every: 10,
 			times: 10,
@@ -70,12 +82,16 @@
 			bg: {
 				clr1: '#9A9A9A',
 				clr2: '#A9A9A9',
-				stroke: '#333',
+				stroke: '',
 				shape: 'square',
 				times: 200,
 				width: 10,
 				gridlock: true,
 				striped: false
+			},
+			mousemove: {
+			    color: '#333',
+			    stroke: '#000'
 			}
 		}, p;
 		

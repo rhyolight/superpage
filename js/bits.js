@@ -104,28 +104,41 @@ $(function () {
 		ctx.fillRect(x, y, w, w);
 	}
 	
-	c.addEventListener('mousemove', mouseMove, false);
+	function mouseMoveAnimation(cfg) {
+	    drawLittleCircle(cfg.color, cfg.x, cfg.y, cfg.w, cfg.stroke);
+	}
 	
 	function mouseMove(e) {
 	    var cell = getCursorPosition(e);
-	    drawLittleSquare('red', cell[0], cell[1], 10, 'black');
+	    var cfg = {
+	        x: cell[0],
+	        y: cell[1],
+	        w: 10,
+	        color: BITS.cfg.mousemove.color,
+	        stroke: BITS.cfg.mousemove.stroke
+	    }
+	    mouseMoveAnimation(cfg);
 	}
 	
     function getCursorPosition(e) {
-        var x;
-        var y;
+        var x, y;
         if (e.pageX || e.pageY) {
             x = e.pageX;
             y = e.pageY;
-        }
-        else {
+        } else {
             x = e.clientX + document.body.scrollLeft +
-            document.documentElement.scrollLeft;
+                document.documentElement.scrollLeft;
             y = e.clientY + document.body.scrollTop +
-            document.documentElement.scrollTop;
+                document.documentElement.scrollTop;
         }
-        x -= c.offsetLeft;
-        y -= c.offsetTop;
         return [x,y];
     }
+    
+    
+    $(window).bind('resize', function() {
+        init(BITS.cfg.bg);
+    });
+    
+    c.addEventListener('mousemove', mouseMove, false);
+	
 });
