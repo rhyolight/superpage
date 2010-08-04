@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>bits</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Matthew Taylor">
+	<!-- Date: 2010-08-03 -->
+	<style>
+	body {
+		background-color: black;
+		font-family: Verdana;
+		font-size: 11pt;
+	}
+	label {
+		font-size: 8pt;
+		width: 30px;
+	}
+	canvas#bits {
+ 		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: -999;
+	}
+	#bitsControl {
+		float: left;
+	}
+	#content {
+		background-color: white;
+		border: solid 1px black;
+		padding: 20px;
+		margin-left: 200px;
+	}
+	</style>
+</head>
+<body>
+<canvas id="bits"></canvas>
+
+<div id="bitsControl">
+	<button>PAUSE</button><br/>
+	<label for="clr1">Color 1</label><input id="clr1"/><br/>
+	<label for="clr2">Color 2</label><input id="clr2"/><br/>
+	<label for="stroke">Outline</label><input id="stroke"/><br/>
+	<label for="width">Size</label><input id="width"/><br/>
+	<label for="times">Speed</label><input id="times"/><br/>
+	<label for="shape">Shape</label><input id="shape"/><br/>
+</div>
+
+<div id="content">
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis ipsum vitae arcu accumsan aliquet et quis est. Donec gravida risus a diam facilisis ultrices. Aliquam quis mattis ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed libero nibh, iaculis sit amet porttitor pulvinar, fringilla a nisl. Nunc mauris erat, euismod ac ullamcorper in, aliquam eget nulla. Nunc dignissim pretium ante, vel scelerisque enim blandit vel. Praesent egestas ipsum ac ipsum fermentum suscipit. Mauris non massa at libero pharetra faucibus. Ut eu libero ut odio hendrerit feugiat a ut nibh. Donec cursus nisi ac sapien mattis vitae iaculis augue suscipit. Morbi felis ante, mollis sed tempor et, malesuada quis lorem. In hendrerit velit et diam vestibulum non vestibulum lectus ullamcorper. Nulla rutrum ornare neque lacinia auctor. Ut adipiscing interdum elementum. Praesent blandit, felis at consequat porttitor, orci nulla gravida lectus, sed congue mi orci eu sapien. Ut blandit imperdiet nisi id ullamcorper. Nunc commodo elementum odio sed vulputate.
+</div>
+
+<script src="js/jquery-1.4.2.js"></script>
+<script src="js/bits.js"></script>
+
+<script>
+	$(function() {
+		
+		var bitsConfig = {
+			clr1: '#9A9A9A',
+			clr2: '#A9A9A9',
+			stroke: '#333',
+			width: 10,
+			every: 10,
+			times: 10,
+			shape: 'circle',
+			pause: false,
+			bg: {
+				clr1: '#9A9A9A',
+				clr2: '#A9A9A9',
+				stroke: '#333',
+				shape: 'square',
+				times: 200,
+				width: 10,
+				gridlock: true,
+				striped: false
+			}
+		}, p;
+		
+		for (p in bitsConfig) {
+			if (bitsConfig.hasOwnProperty(p)) {
+				$('#' + p).val(bitsConfig[p]);
+			}
+		}
+		
+		$('button').click(function() {
+			if (BITS.isPaused()) {
+				BITS.resume();
+				this.innerHTML = 'PAUSE';
+			} else {
+				BITS.pause();
+				this.innerHTML = 'RESUME';
+			}
+		});
+		
+		$('input').change(function() {
+			var $input = $(this);
+			BITS.set($input.attr('id'), $input.val());
+		});
+		
+		BITS.init(bitsConfig);
+	});
+</script>
+
+</body>
+</html>

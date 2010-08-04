@@ -1,0 +1,59 @@
+#header {
+    background: url(../images/anglerheader.jpg) 0 0;
+    height: 213px;
+    width: 960px;
+    color: white;
+    text-align: right;
+}
+
+#header h1, #header p {
+    margin-right: 60px;
+}
+
+
+body {
+	overflow: hidden;
+}
+.swinger {
+	border: 3px solid black;
+	position: absolute;
+	top: 200px;
+	left:  3400px;
+	bottom: 50px;
+	background-color: white;
+}
+
+#contentDivs .swinger {
+	width: 800px;
+}
+
+#iconDivs .swinger {
+	width: 100px;
+	height: 100px;
+}
+#iconDivs img {
+	width: 100px;
+	height: 100px;
+}
+
+.welcome {
+	background-color: blue;
+}
+.about {
+	background-color: red;
+}
+.work {
+	background-color: cyan;
+}
+.resume {
+	background-color: pink;
+}
+.talks {
+	background-color: lavender;
+}
+.social {
+	background-color: orange;
+}
+.projects {
+	background-color: yellow;
+}
