@@ -1,0 +1,75 @@
+body {
+	background-color: black;
+	font-family: Verdana;
+	font-size: 11pt;
+	overflow: hidden;
+}
+
+#bitsControl {
+    margin: 0px;
+    padding: 5px;
+	font-size: 8pt;
+	width: 108px;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	background: rgb(255, 255, 255);
+	background: rgba(255, 255, 255, 0.6);
+}
+#bitsControl input {
+    width: 60px;
+}
+
+canvas#bits {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: -999;
+}
+
+.swinger {
+    background-color: white;
+	border: solid 5px black;
+	padding: 20px;
+	-moz-border-radius: 15px; 
+	-webkit-border-radius: 15px;
+	position: absolute;
+	top: 100px;
+	left:  3400px;
+	bottom: 50px;
+}
+
+#contentDivs .swinger {
+	width: 800px;
+}
+
+#iconDivs .swinger {
+	width: 100px;
+	height: 100px;
+}
+#iconDivs img {
+	width: 100px;
+	height: 100px;
+}
+
+.welcome {
+	background-color: blue;
+}
+.about {
+	background-color: red;
+}
+.work {
+	background-color: cyan;
+}
+.resume {
+	background-color: pink;
+}
+.talks {
+	background-color: lavender;
+}
+.social {
+	background-color: orange;
+}
+.projects {
+	background-color: yellow;
+}

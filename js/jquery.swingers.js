@@ -28,7 +28,7 @@ jQuery.fn.swing = function(cfg) {
     
     function left(after, speed) {
         var $it = jQuery(this),
-            left = '-' + ($it.width()+10) + 'px',
+            left = '-' + ($it.width()+100) + 'px',
             top = cfg.top || (window.outerHeight / 2 - $it .height() / 2) + 'px';
         speed = speed || 'slow';
         $it.animate({left: left, top: top}, speed, easing, after);
